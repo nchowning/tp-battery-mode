@@ -1,0 +1,11 @@
+[Unit]
+Description=Set Battery Charge Thresholds using tpacpi-bat
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/tp-battery-mode start
+ExecStop=/usr/sbin/tp-battery-mode stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

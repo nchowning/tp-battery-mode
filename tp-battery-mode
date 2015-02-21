@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [[ $1 == "start" ]]; then
+    # First battery
+    if [[ -e /sys/class/power_supply/BAT0 ]]; then
+        /usr/bin/tpacpi-bat -s ST 1 85
+        /usr/bin/tpacpi-bat -s SP 1 90
+    fi
+    # Second battery
+    if [[ -e /sys/class/power_supply/BAT1 ]]; then
+        /usr/bin/tpacpi-bat -s ST 2 85
+        /usr/bin/tpacpi-bat -s SP 2 90
+    fi
+elif [[ $1 == "stop" ]]; then
+    # First battery
+    if [[ -e /sys/class/power_supply/BAT0 ]]; then
+        /usr/bin/tpacpi-bat -s ST 1 0
+        /usr/bin/tpacpi-bat -s SP 1 0
+    fi
+    # Second battery
+    if [[ -e /sys/class/power_supply/BAT1 ]]; then
+        /usr/bin/tpacpi-bat -s ST 2 0
+        /usr/bin/tpacpi-bat -s SP 2 0
+    fi
+else
+    echo "usage: tp-battery-mode.sh [start|stop]"
+    echo "  start -> Battery optimization for lifespan"
+    echo "  stop  -> Battery optimization for runtime (default behavior)"
+fi
