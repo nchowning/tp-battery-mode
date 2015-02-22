@@ -1,15 +1,22 @@
 #!/bin/bash
 
+if [[ -e /etc/tp-battery-mode.conf ]]; then
+    source /etc/tp-battery-mode.conf
+else
+    STARTTHRESHOLD=85
+    STOPTHRESHOLD=90
+fi
+
 if [[ $1 == "start" ]]; then
     # First battery
     if [[ -e /sys/class/power_supply/BAT0 ]]; then
-        /usr/bin/tpacpi-bat -s ST 1 85
-        /usr/bin/tpacpi-bat -s SP 1 90
+        /usr/bin/tpacpi-bat -s ST 1 ${STARTTHRESHOLD}
+        /usr/bin/tpacpi-bat -s SP 1 ${STOPTHRESHOLD}
     fi
     # Second battery
     if [[ -e /sys/class/power_supply/BAT1 ]]; then
-        /usr/bin/tpacpi-bat -s ST 2 85
-        /usr/bin/tpacpi-bat -s SP 2 90
+        /usr/bin/tpacpi-bat -s ST 2 ${STARTTHRESHOLD}
+        /usr/bin/tpacpi-bat -s SP 2 ${STOPTHRESHOLD}
     fi
 elif [[ $1 == "stop" ]]; then
     # First battery
